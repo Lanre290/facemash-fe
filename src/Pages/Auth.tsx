@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import requestLoadingAnim from "./../assets/animations/loading_2.json";
-import Lottie from "lottie-react";
+// import rawRequestLoadingAnim from "./../assets/animations/loading_2.json";
+// import Lottie from "lottie-react";
 import { useNavigate } from "react-router-dom";
+
+
+// const requestLoadingAnim = JSON.parse(JSON.stringify(rawRequestLoadingAnim));
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -85,6 +88,18 @@ const AuthPage = () => {
     }
   };
 
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      if (parsedUser.token) {
+        navigate("/home");
+      }
+    }
+    
+  }, [])
+  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1e1e2f] via-[#34354a] to-[#222] text-white p-4">
       <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-xl p-8 w-full max-w-md">
@@ -130,12 +145,12 @@ const AuthPage = () => {
           >
             {isProcessingRequest ? (
                 <div className="w-5 h-5 mx-auto">
-                    <Lottie
+                    {/* <Lottie
                         animationData={requestLoadingAnim}
                         loop
                         autoplay
                         style={{ height: "100px", width: "100px", marginTop: '-250%', marginLeft: '-200%', marginRight: 'auto' }}
-                    />
+                    /> */}
                 </div>
             ) : isLogin ? "Login" : "Sign Up"}
           </button>

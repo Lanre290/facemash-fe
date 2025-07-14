@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Lottie from "lottie-react";
-import loadingAnim from "./../assets/animations/loading.json";
+// import Lottie from "lottie-react";
+// import rawLoadingAnim from "./../assets/animations/loading.json";
 import { BiQuestionMark } from "react-icons/bi";
 import { CiUser } from "react-icons/ci";
 import { GrAdd } from "react-icons/gr";
 import { AddNew } from "../Components/AddNew";
 import { toast } from "sonner";
 import { BsShare } from "react-icons/bs";
-import requestLoadingAnim from "./../assets/animations/loading_2.json";
+// import { nav } from "framer-motion/client";
+import { useNavigate } from "react-router-dom";
+// import rawRequestLoadingAnim from "./../assets/animations/loading_2.json";
+
+// const loadingAnim = JSON.parse(JSON.stringify(rawLoadingAnim));
+// const requestLoadingAnim = JSON.parse(JSON.stringify(rawRequestLoadingAnim));
 
 interface Face {
   id?: number;
@@ -58,6 +63,21 @@ export default function Facemash() {
   const [person2Votecount, setPerson2Votecount] = useState<number>(0);
   const [fetchingLeaderBoard, setFetchingLeaderBoard] = useState<boolean>(false);
   const [createdNewMash, setCreatedNewMash] = useState<boolean>(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+  // const [requestLoadingAnim, setRequestLoadingAnim] = useState(null);
+  // const [loadingAnim, setLoadingAnim] = useState(null);
+
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   fetch("./../assets/animations/loading_2.json")
+  //     .then((res) => res.json())
+  //     .then((data) => setRequestLoadingAnim(data));
+
+  //   fetch("./../assets/animations/loading.json")
+  //     .then((res) => res.json())
+  //     .then((data) => setLoadingAnim(data));
+  // }, []);
 
   const fetchFaces = async (id?: string) => {
     setLoading(true);
@@ -152,11 +172,13 @@ export default function Facemash() {
         body: JSON.stringify({ postId, votedFor: person == 1 ? "one" : "two" }),
       });
 
-      const viewedPosts = JSON.parse(
-        localStorage.getItem("viewedPosts") || "[]"
-      );
+      const viewedPostsRaw = localStorage.getItem("viewedPosts");
+      const viewedPosts = Array.isArray(JSON.parse(viewedPostsRaw || "[]"))
+        ? [...JSON.parse(viewedPostsRaw || "[]")]
+        : [];
       viewedPosts.push(postId);
       localStorage.setItem("viewedPosts", JSON.stringify(viewedPosts));
+
 
       localStorage.setItem(
         postId,
@@ -201,6 +223,9 @@ export default function Facemash() {
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
+    else{
+      navigate('/auth');
+    }
 
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
@@ -217,10 +242,16 @@ export default function Facemash() {
   //   fetchFaces(postId);
   // }, [postId]);
 
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    setIsLargeScreen(window.innerWidth > 768);
+  }
+}, []);
+
   return (
     <>
       <div className="fixed md:right-10 md:left-auto md:top-10 md:h-20 md:min-w-20 md:w-auto md:p-6 left-2 top-2 h-14 w-14 p-4 z-50 bg-black/20 backdrop-blur-lg flex items-center justify-center rounded-full cursor-pointer gap-x-3">
-        {screen.width > 768 && (
+        {isLargeScreen && (
           <h3 className="text-white text-4xl font-light">{user.name}</h3>
         )}
         <CiUser className="text-4xl text-white" />
@@ -300,7 +331,7 @@ export default function Facemash() {
 
         {loading ? (
           <div className="w-40 h-40">
-            <Lottie animationData={loadingAnim} loop autoplay />
+            {/* <Lottie animationData={loadingAnim} loop autoplay /> */}
           </div>
         ) : faces.length === 2 ? (
           <AnimatePresence>
@@ -340,12 +371,12 @@ export default function Facemash() {
             {
               fetchingLeaderBoard ? (
                 <div className="w-5 h-5 mx-auto">
-                  <Lottie
+                  {/* <Lottie
                       animationData={requestLoadingAnim}
                       loop
                       autoplay
                       style={{ height: "100px", width: "100px", marginTop: '-250%', marginLeft: '-200%', marginRight: 'auto' }}
-                  />
+                  /> */}
               </div>
               ): '🏆 View Leaderboard'
             }

@@ -1,9 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
-import Lottie from "lottie-react";
+// import Lottie from "lottie-react";
 import { useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { toast } from "sonner";
-import requestLoadingAnim from "./../assets/animations/loading_2.json";
 import { CgClose } from "react-icons/cg";
 
 export const AddNew = () => {
@@ -19,6 +18,13 @@ export const AddNew = () => {
     useState<boolean>(false);
 
     const [isShown, setIsShown] = useState<boolean>(true);
+    // const [requestLoadingAnim, setRequestLoadingAnim] = useState(null);
+
+  // useEffect(() => {
+  //   fetch("./../assets/animations/loading_2.json")
+  //     .then((res) => res.json())
+  //     .then((data) => setRequestLoadingAnim(data));
+  // }, []);
 
 
   const handleFormImageOneUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,12 +201,13 @@ export const AddNew = () => {
                 {
                     isProcessingRequest ? (
                         <div className="w-5 h-5 mx-auto">
-                            <Lottie
+                          Loading...
+                            {/* <Lottie
                                 animationData={requestLoadingAnim}
                                 loop
                                 autoplay
                                 style={{ height: "100px", width: "100px", marginTop: '-250%', marginLeft: '-200%', marginRight: 'auto' }}
-                            />
+                            /> */}
                         </div>
                     ) : 'Post'
                 }
