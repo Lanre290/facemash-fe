@@ -145,6 +145,7 @@ const AuthPage = () => {
           >
             {isProcessingRequest ? (
                 <div className="w-5 h-5 mx-auto">
+                  Loading...
                     {/* <Lottie
                         animationData={requestLoadingAnim}
                         loop
