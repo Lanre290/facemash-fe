@@ -67,9 +67,6 @@ export default function Facemash() {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   // const [requestLoadingAnim, setRequestLoadingAnim] = useState(null);
   // const [loadingAnim, setLoadingAnim] = useState(null);
-
-  const navigate = useNavigate();
-
   // useEffect(() => {
   //   fetch("./../assets/animations/loading_2.json")
   //     .then((res) => res.json())
@@ -220,6 +217,10 @@ export default function Facemash() {
   };
 
   useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
 
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
