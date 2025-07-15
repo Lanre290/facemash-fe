@@ -378,7 +378,7 @@ useEffect(() => {
             }
           </button>
           <div
-            className="bg-black/20 backdrop-blur-sm flex items-center justify-center p-4 rounded-full cursor-pointer h-14 w-14"
+            className="bg-black/20 backdrop-blur-sm flex items-center justify-center p-4 rounded-full cursor-pointer h-14 w-14 mb-20"
             onClick={() => {
               navigator.clipboard.writeText(`${location.origin}/home?id=${postId}`);
               toast.info("Link copied to clipboard!");
