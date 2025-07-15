@@ -9,7 +9,6 @@ import { AddNew } from "../Components/AddNew";
 import { toast } from "sonner";
 import { BsShare } from "react-icons/bs";
 // import { nav } from "framer-motion/client";
-import { useNavigate } from "react-router-dom";
 import BouncingDots from "../Components/BoucingDots";
 // import rawRequestLoadingAnim from "./../assets/animations/loading_2.json";
 
