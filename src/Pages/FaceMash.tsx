@@ -322,7 +322,7 @@ useEffect(() => {
         <p className="text-md mb-2 text-gray-300">
           Vote the vibe 👀 — Who wins your pick?
         </p>
-        <h1 className="text-5xl my-5 font-bold">{mashTitle}</h1>
+        <h1 className="text-3xl md:text-5xl my-5 font-bold">{mashTitle}</h1>
 
         {loading ? (
           <div className="w-40 h-40">
