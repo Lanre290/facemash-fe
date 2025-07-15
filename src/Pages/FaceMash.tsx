@@ -317,7 +317,7 @@ useEffect(() => {
       </div>
 
       <div className="min-h-screen bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex flex-col items-center justify-center text-white p-4">
-        <h1 className="text-4xl font-bold mb-2">facemash.ai</h1>
+        <h1 className="text-4xl font-bold mb-2">facemash 🧸</h1>
         <p className="text-md mb-2 text-gray-300">
           Vote the vibe 👀 — Who wins your pick?
         </p>
