@@ -29,6 +29,11 @@ export const AddNew = () => {
 
   const handleFormImageOneUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    if(!file?.type.startsWith("image/")) {
+      toast.error("Please upload a valid image file.");
+      return;
+    }
+    
     if (file) {
       setImage1(file);
       const url = URL.createObjectURL(file);
@@ -38,6 +43,11 @@ export const AddNew = () => {
 
   const handleFormImageTwoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    if(!file?.type.startsWith("image/")) {
+      toast.error("Please upload a valid image file.");
+      return;
+    }
+
     if (file) {
       setImage2(file);
       const url = URL.createObjectURL(file);
@@ -152,6 +162,7 @@ export const AddNew = () => {
                     id=""
                     className="absolute top-0 right-0 left-0 bottom-0 cursor-pointer opacity-0"
                     onChange={handleFormImageOneUpload}
+                    accept="image/*"
                   />
                 </div>
                 <input
@@ -179,6 +190,7 @@ export const AddNew = () => {
                     id=""
                     className="absolute top-0 right-0 left-0 bottom-0 cursor-pointer opacity-0"
                     onChange={handleFormImageTwoUpload}
+                    accept="image/*"
                   />
                 </div>
                 <input
