@@ -417,7 +417,7 @@ useEffect(() => {
           <button
             type="button"
             onClick={() => {fetchLeaderBoard()}}
-            className={`${fetchingLeaderBoard ? 'bg-purple-300' : 'bg-purple-600 hover:bg-purple-700'} text-white py-2 px-4 rounded-lg shadow-md transition text-xl cursor-pointer h-12 md:mb-0 mb-20`}
+            className={`${fetchingLeaderBoard ? 'bg-purple-300' : 'bg-purple-600 hover:bg-purple-700'} text-white py-2 px-4 rounded-lg shadow-md transition md:text-xl cursor-pointer h-12 md:mb-0 mb-20`}
           >
             {
               fetchingLeaderBoard ? (
