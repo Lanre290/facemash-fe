@@ -670,7 +670,7 @@ useEffect(() => {
                       <div className="w-full gap-y-2 flex flex-col overflow-y-auto justify-start">
                         {
                           comments.map((comment, index) => (
-                            <div className="flex flex-col w-fit p-3 rounded-xl gap-y-0.5 bg-white/10 backdrop-blur-xl" key={index}>
+                            <div className="flex flex-col w-fit p-3 rounded-xl gap-y-0.5 bg-gray-800 backdrop-blur-xl" key={index}>
                               <h3 className="text-gray-500 font-semibold">{comment.userName}</h3>
                               <h3 className="text-white">{comment.comment}</h3>
                             </div>
