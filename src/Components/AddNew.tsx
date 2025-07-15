@@ -4,6 +4,7 @@ import { useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { toast } from "sonner";
 import { CgClose } from "react-icons/cg";
+import Spinner from "./Spinner";
 
 export const AddNew = () => {
   const [image1url, setImage1url] = useState("");
@@ -33,7 +34,7 @@ export const AddNew = () => {
       toast.error("Please upload a valid image file.");
       return;
     }
-    
+
     if (file) {
       setImage1(file);
       const url = URL.createObjectURL(file);
@@ -213,7 +214,7 @@ export const AddNew = () => {
                 {
                     isProcessingRequest ? (
                         <div className="w-5 h-5 mx-auto">
-                          Loading...
+                          <Spinner />
                             {/* <Lottie
                                 animationData={requestLoadingAnim}
                                 loop
