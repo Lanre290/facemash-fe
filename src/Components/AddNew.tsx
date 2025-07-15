@@ -87,7 +87,6 @@ export const AddNew = () => {
         toast.success("Post created successful.");
         const data = await res.json();
         setIsProcessingRequest(false);
-        console.log(data);
 
         setPerson1('');
         setPerson2('');
@@ -103,7 +102,6 @@ export const AddNew = () => {
       } else {
         const data = await res.json();
         setIsProcessingRequest(false);
-        console.log(data);
 
         toast.error(data.error || "Something went wrong.");
       }

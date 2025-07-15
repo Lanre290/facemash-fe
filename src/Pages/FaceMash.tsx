@@ -696,6 +696,7 @@ useEffect(() => {
                           setComments([...comments, { comment: newComment, userName: user.name }]);
                           setComment('');
                           submitComment();
+                          fetchComments();
                           e.currentTarget.value = "";
                         }
                       }
@@ -703,7 +704,12 @@ useEffect(() => {
                   />
                   <button
                     className="ml-2 w-16 h-16 bg-purple-600 hover:bg-purple-700 transition text-white font-semibold rounded-full flex items-center justify-center cursor-pointer"
-                    onClick={submitComment}
+                    onClick={() => {
+                      setComment('');
+                      submitComment();
+                      fetchComments();
+                    }}
+                    
                   >
                     <BiSend className="text-3xl text-white" />
                   </button>
