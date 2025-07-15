@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // import Lottie from "lottie-react";
 // import rawLoadingAnim from "./../assets/animations/loading.json";
-import { BiQuestionMark } from "react-icons/bi";
+import { BiComment, BiQuestionMark, BiSend } from "react-icons/bi";
 import { CiUser } from "react-icons/ci";
 import { GrAdd } from "react-icons/gr";
 import { AddNew } from "../Components/AddNew";
@@ -66,19 +66,12 @@ export default function Facemash() {
   const [fetchingLeaderBoard, setFetchingLeaderBoard] = useState<boolean>(false);
   const [createdNewMash, setCreatedNewMash] = useState<boolean>(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const [commentUI, setCommentUI] = useState<boolean>(false);
+  const [comments, setComments] = useState<any[]>([]);
+  const [comment, setComment] = useState<string>('');
+  const [fetchingComments, setFecthingComments] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  // const [requestLoadingAnim, setRequestLoadingAnim] = useState(null);
-  // const [loadingAnim, setLoadingAnim] = useState(null);
-  // useEffect(() => {
-  //   fetch("./../assets/animations/loading_2.json")
-  //     .then((res) => res.json())
-  //     .then((data) => setRequestLoadingAnim(data));
-
-  //   fetch("./../assets/animations/loading.json")
-  //     .then((res) => res.json())
-  //     .then((data) => setLoadingAnim(data));
-  // }, []);
 
   const fetchFaces = async (id?: string) => {
     setLoading(true);
@@ -194,6 +187,10 @@ export default function Facemash() {
   };
 
   const fetchLeaderBoard = async () => {
+    if(!postId) {
+      return;
+    }
+
     setViewLeaderBoard(true);
     setFetchingLeaderBoard(true);
 
@@ -218,6 +215,58 @@ export default function Facemash() {
       setLoading(false);
     }
   };
+
+  const submitComment = async () => {
+    if(comment.length == 0) {
+      return;
+    }
+    if(!localStorage.getItem("user")) {
+      toast.error("Please login to comment.");
+      window.open(`/auth`, "_blank");
+    }
+
+    try {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment`, {
+        method: "POST",
+        body: JSON.stringify({postId, comment}),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("user") || "{}").token || ""}`
+        }
+      });
+
+    } catch (error) {
+      toast.error("An error occurred while fetching the leaderboard.");
+    }
+  }
+
+  const fetchComments = async() => {
+    if(!postId) {
+      return;
+    }
+
+    setFecthingComments(true);
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comments/${postId}`, {
+        method: "GET",
+      });
+
+      if (res.ok) {
+        const data = await res.json()
+        setComments(data.comments);
+        setFecthingComments(false);
+        setCommentUI(true);
+
+      } else {
+        toast.error("Failed to fetch Comments.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while fetching the comments.");
+    } finally {
+      setFecthingComments(false);
+    }
+  }
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
@@ -245,6 +294,7 @@ useEffect(() => {
     setIsLargeScreen(window.innerWidth > 768);
   }
 }, []);
+
 
   return (
     <>
@@ -313,7 +363,6 @@ useEffect(() => {
             }
           }
           else{
-            // window.location.href = `/auth`;
             navigate('/auth')
             toast.error("Please login to create a new mash.");
           }
@@ -368,7 +417,7 @@ useEffect(() => {
           <button
             type="button"
             onClick={() => {fetchLeaderBoard()}}
-            className={`${fetchingLeaderBoard ? 'bg-purple-300' : 'bg-purple-600 hover:bg-purple-700'} text-white py-2 px-4 rounded-lg shadow-md transition text-xl cursor-pointer md:mb-0 mb-20`}
+            className={`${fetchingLeaderBoard ? 'bg-purple-300' : 'bg-purple-600 hover:bg-purple-700'} text-white py-2 px-4 rounded-lg shadow-md transition text-xl cursor-pointer h-12 md:mb-0 mb-20`}
           >
             {
               fetchingLeaderBoard ? (
@@ -377,13 +426,25 @@ useEffect(() => {
             }
           </button>
           <div
-            className="bg-black/20 backdrop-blur-sm flex items-center justify-center p-4 rounded-full cursor-pointer h-14 w-14 mb-20"
+            className="bg-black/20 backdrop-blur-sm flex items-center justify-center p-4 rounded-full cursor-pointer h-14 w-14 md:mb-0 mb-20"
             onClick={() => {
               navigator.clipboard.writeText(`${location.origin}/home?id=${postId}`);
               toast.info("Link copied to clipboard!");
             }}
           >
             <BsShare className="text-3xl text-white" />
+          </div>
+          <div
+            className="bg-black/20 backdrop-blur-sm flex items-center justify-center p-4 rounded-full cursor-pointer h-14 w-14 md:mb-0 mb-20"
+            onClick={fetchComments}
+          >
+            {
+              fetchingComments ? (
+                <Spinner />
+              ): (
+                <BiComment className="text-3xl text-white" />
+              )
+            }
           </div>
         </footer>
       </div>
@@ -570,6 +631,89 @@ useEffect(() => {
           </motion.div>
         )
       }
+
+      <AnimatePresence>
+        {commentUI && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 md:p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.85 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 pl-2 pr-2 w-full max-w-xl text-white shadow-2xl relative max-h-screen"
+              style={{height: isLargeScreen ? '70%' : '90%'}}
+            >
+              <button
+                className="absolute top-4 right-4 text-white/60 hover:text-white text-xl m-3"
+                onClick={() => setCommentUI(false)}
+              >
+                ✕
+              </button>
+              <h2 className="text-2xl font-bold mb-6 text-center">
+                Comments Section
+              </h2>
+              
+              <div className="flex flex-col justify-between pb-10 h-full">
+                {
+                  comments.length == 0 ? (
+                    <div className="flex flex-col justify-center items-center gap-y-2 h-full grow">
+                      <BiComment className="text-7xl text-white" />
+                      <p className="text-gray-400 text-2xl text-center">Be the first to comment! 🧸</p>
+                    </div>
+                  ) : 
+                  (
+                    <div className="flex flex-col justify-start items-center gap-y-2 grow" style={{height: 'calc(100% - 70px)'}}>
+                      <div className="w-full gap-y-2 flex flex-col overflow-y-auto justify-start">
+                        {
+                          comments.map((comment, index) => (
+                            <div className="flex flex-col w-fit p-3 rounded-xl gap-y-0.5 bg-white/10 backdrop-blur-xl" key={index}>
+                              <h3 className="text-gray-500 font-semibold">{comment.userName}</h3>
+                              <h3 className="text-white">{comment.comment}</h3>
+                            </div>
+                          ))
+                        }
+                      </div>
+                    </div>
+                  )
+                }
+
+                <div className="flex flex-row bg-white/20 overflow-x-hidden overflow-y-hidden h-16 min-h-16  w-fullitems-center justify-between rounded-4xl">
+                  <input
+                    type="text"
+                    placeholder="Write a comment..."
+                    className="flex-1 grow px-4 py-2 rounded-lg text-white placeholder:text-gray-300 focus:outline-none bg-transparent"
+                    value={comment}
+                    onInput={(e: any) => {setComment(e.target.value)}}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        const newComment = e.currentTarget.value.trim();
+                        if (newComment) {
+                          setComments([...comments, { comment: newComment, userName: user.name }]);
+                          setComment('');
+                          submitComment();
+                          e.currentTarget.value = "";
+                        }
+                      }
+                    }}
+                  />
+                  <button
+                    className="ml-2 w-16 h-16 bg-purple-600 hover:bg-purple-700 transition text-white font-semibold rounded-full flex items-center justify-center cursor-pointer"
+                    onClick={submitComment}
+                  >
+                    <BiSend className="text-3xl text-white" />
+                  </button>
+                </div>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
