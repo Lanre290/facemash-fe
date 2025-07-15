@@ -11,6 +11,7 @@ import { BsShare } from "react-icons/bs";
 // import { nav } from "framer-motion/client";
 import BouncingDots from "../Components/BoucingDots";
 import Spinner from "../Components/Spinner";
+import { useNavigate } from "react-router-dom";
 // import rawRequestLoadingAnim from "./../assets/animations/loading_2.json";
 
 // const loadingAnim = JSON.parse(JSON.stringify(rawLoadingAnim));
@@ -65,6 +66,8 @@ export default function Facemash() {
   const [fetchingLeaderBoard, setFetchingLeaderBoard] = useState<boolean>(false);
   const [createdNewMash, setCreatedNewMash] = useState<boolean>(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  const navigate = useNavigate();
   // const [requestLoadingAnim, setRequestLoadingAnim] = useState(null);
   // const [loadingAnim, setLoadingAnim] = useState(null);
   // useEffect(() => {
@@ -310,7 +313,9 @@ useEffect(() => {
             }
           }
           else{
-            window.location.href = `/auth`;
+            // window.location.href = `/auth`;
+            navigate('/auth')
+            toast.error("Please login to create a new mash.");
           }
         }}
       >
