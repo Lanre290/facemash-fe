@@ -403,7 +403,7 @@ useEffect(() => {
               <FaceCard
                 person={faces[1]}
                 onClick={() => {
-                  markVote(2, faces[0].name);
+                  markVote(2, faces[1].name);
                 }}
               />
             </motion.div>
