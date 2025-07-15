@@ -191,7 +191,6 @@ export default function Facemash() {
       return;
     }
 
-    setViewLeaderBoard(true);
     setFetchingLeaderBoard(true);
 
     try {
@@ -205,7 +204,7 @@ export default function Facemash() {
         setPerson2Votecount(data.person2Votecount);
         setFetchingLeaderBoard(false);
 
-        setViewLeaderBoard(true)
+        setViewLeaderBoard(true);
       } else {
         toast.error("Failed to fetch leaderboard.");
       }
