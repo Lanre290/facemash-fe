@@ -428,7 +428,7 @@ useEffect(() => {
                     src={faces[0]?.image}
                     className="w-40 h-40 object-cover rounded-full"
                   />
-                  <span className="text-3xl">{faces[0]?.name}</span>
+                  <span className="md:text-3xl">{faces[0]?.name}</span>
                 </div>
 
                 <span className="mx-2 text-2xl text-gray-400">vs</span>
@@ -438,7 +438,7 @@ useEffect(() => {
                     src={faces[1]?.image}
                     className="w-40 h-40 object-cover rounded-full"
                   />
-                  <span className="text-3xl">{faces[1]?.name}</span>
+                  <span className="md:text-3xl">{faces[1]?.name}</span>
                 </div>
               </div>
 
@@ -471,11 +471,11 @@ useEffect(() => {
                     src={faces[0]?.image}
                     className="w-12 h-12 object-cover rounded-full"
                   />
-                  <span className="text-3xl">{faces[0]?.name}</span>
+                  <span className="md:text-3xl">{faces[0]?.name}</span>
                 </div>
 
                 <div className="absolute top-0 right-4 bottom-0 flex items-center justify-center">
-                  <span className="text-3xl text-white">
+                  <span className="md:text-3xl text-white">
                     {person1Votecount}
                   </span>
                 </div>
@@ -509,11 +509,11 @@ useEffect(() => {
                     src={faces[1]?.image}
                     className="w-12 h-12 object-cover rounded-full"
                   />
-                  <span className="text-3xl">{faces[1]?.name}</span>
+                  <span className="md:text-3xl">{faces[1]?.name}</span>
                 </div>
 
                 <div className="absolute top-0 right-4 bottom-0 flex items-center justify-center">
-                  <span className="text-3xl text-white">
+                  <span className="md:text-3xl text-white">
                     {person2Votecount}
                   </span>
                 </div>
