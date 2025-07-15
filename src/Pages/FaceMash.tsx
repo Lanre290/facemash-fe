@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { BsShare } from "react-icons/bs";
 // import { nav } from "framer-motion/client";
 import BouncingDots from "../Components/BoucingDots";
+import Spinner from "../Components/Spinner";
 // import rawRequestLoadingAnim from "./../assets/animations/loading_2.json";
 
 // const loadingAnim = JSON.parse(JSON.stringify(rawLoadingAnim));
@@ -362,18 +363,11 @@ useEffect(() => {
           <button
             type="button"
             onClick={() => {fetchLeaderBoard()}}
-            className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg shadow-md transition text-xl cursor-pointer md:mb-0 mb-20"
+            className={`${fetchingLeaderBoard ? 'bg-purple-300' : 'bg-purple-600 hover:bg-purple-700'} text-white py-2 px-4 rounded-lg shadow-md transition text-xl cursor-pointer md:mb-0 mb-20`}
           >
             {
               fetchingLeaderBoard ? (
-                <div className="w-5 h-5 mx-auto">
-                  {/* <Lottie
-                      animationData={requestLoadingAnim}
-                      loop
-                      autoplay
-                      style={{ height: "100px", width: "100px", marginTop: '-250%', marginLeft: '-200%', marginRight: 'auto' }}
-                  /> */}
-              </div>
+                <Spinner />
               ): '🏆 View Leaderboard'
             }
           </button>
