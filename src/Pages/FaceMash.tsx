@@ -147,7 +147,7 @@ export default function Facemash() {
     }
   };
 
-  const markVote = async (person: number) => {
+  const markVote = async (person: number, name: string) => {
     window.history.replaceState({}, "", window.location.pathname);
     if (localStorage.getItem(postId)) {
       toast.info("Already voted for this person");
@@ -178,7 +178,7 @@ export default function Facemash() {
         postId,
         JSON.stringify({ votedFor: person == 1 ? "one" : "two" })
       );
-      toast.success(`Voted for person ${person}`);
+      toast.success(`Voted for ${name}`);
       fetchFaces();
     } catch (error) {
     } finally {
@@ -397,14 +397,14 @@ useEffect(() => {
               <FaceCard
                 person={faces[0]}
                 onClick={() => {
-                  markVote(1);
+                  markVote(1, faces[0].name);
                 }}
               />
               <div className="text-2xl font-bold">VS</div>
               <FaceCard
                 person={faces[1]}
                 onClick={() => {
-                  markVote(2);
+                  markVote(2, faces[0].name);
                 }}
               />
             </motion.div>
