@@ -3,6 +3,7 @@ import { toast } from "sonner";
 // import rawRequestLoadingAnim from "./../assets/animations/loading_2.json";
 // import Lottie from "lottie-react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../Components/Spinner";
 
 
 // const requestLoadingAnim = JSON.parse(JSON.stringify(rawRequestLoadingAnim));
@@ -145,13 +146,9 @@ const AuthPage = () => {
           >
             {isProcessingRequest ? (
                 <div className="w-5 h-5 mx-auto">
-                  Loading...
-                    {/* <Lottie
-                        animationData={requestLoadingAnim}
-                        loop
-                        autoplay
-                        style={{ height: "100px", width: "100px", marginTop: '-250%', marginLeft: '-200%', marginRight: 'auto' }}
-                    /> */}
+                  {
+                    <Spinner />
+                  }
                 </div>
             ) : isLogin ? "Login" : "Sign Up"}
           </button>

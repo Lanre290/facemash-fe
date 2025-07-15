@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { BsShare } from "react-icons/bs";
 // import { nav } from "framer-motion/client";
 import { useNavigate } from "react-router-dom";
+import BouncingDots from "../Components/BoucingDots";
 // import rawRequestLoadingAnim from "./../assets/animations/loading_2.json";
 
 // const loadingAnim = JSON.parse(JSON.stringify(rawLoadingAnim));
@@ -329,9 +330,11 @@ useEffect(() => {
         </p>
         <h1 className="text-5xl my-5 font-bold">{mashTitle}</h1>
 
-        {loading ? (
+        {!loading ? (
           <div className="w-40 h-40">
-            {/* <Lottie animationData={loadingAnim} loop autoplay /> */}
+            {
+              <BouncingDots />
+            }
           </div>
         ) : faces.length === 2 ? (
           <AnimatePresence>
