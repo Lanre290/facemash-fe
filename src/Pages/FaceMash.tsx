@@ -220,13 +220,6 @@ export default function Facemash() {
   };
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    else{
-      navigate('/auth');
-    }
 
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
