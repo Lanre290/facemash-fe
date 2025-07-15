@@ -330,7 +330,7 @@ useEffect(() => {
         </p>
         <h1 className="text-5xl my-5 font-bold">{mashTitle}</h1>
 
-        {!loading ? (
+        {loading ? (
           <div className="w-40 h-40">
             {
               <BouncingDots />
